@@ -2,21 +2,26 @@
 
 	'use strict';
 
-	var router = new Router();
-
-	['all', 'incompleted', 'completed'].forEach(function (filterFlag) {
-		router.on(filterFlag, function () {
-			todosApp.filterFlag = filterFlag;
-		});
-	});
-
-	router.configure({
-		notfound: function () {
-			window.location.hash = '';
-			app.filterFlag = 'all';
+	var routes = {
+		'/all': function() {
+			todosApp.filterFlag = 'all';
+		},
+		'/incompleted': function() {
+			todosApp.filterFlag = 'incompleted';
+		},
+		'/completed': function() {
+			todosApp.filterFlag = 'completed';
 		}
-	});
+	};
 
+	var options = {
+		notfound: function() {
+			window.location.hash = '';
+			todosApp.filterFlag = 'all';
+		}
+	}
+	var router = new Router(routes);
+	router.configure(options);
 	router.init();
 
 })(todosApp, Router);
